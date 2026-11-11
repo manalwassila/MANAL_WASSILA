@@ -11,6 +11,15 @@ from api.securite import exiger_role
 router = APIRouter(prefix="/v1", tags=["v1"])
 
 
+def charger_metriques(chemin: Path) -> dict[str, object]:
+    """Lit les métriques suivies, sans faire échouer la route si le fichier manque."""
+    try:
+        contenu = json.loads(chemin.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    return contenu if isinstance(contenu, dict) else {}
+
+
 @router.post("/predict", response_model=PredictResponse)
 async def prediction_v1(body: PredictRequest, request: Request,
                         _role: str = Depends(exiger_role("client"))) -> Prediction:
@@ -37,9 +46,6 @@ async def modele_v1(request: Request) -> dict[str, object]:
         raise HTTPException(503, detail="Modèle non chargé")
     racine = Path(__file__).resolve().parents[1]
     chemin_metriques = racine / "models" / "metrics.json"
-    try:
-        metriques = json.loads(chemin_metriques.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        metriques = {}
+    metriques = charger_metriques(chemin_metriques)
     return {"model": classifier.model_name, "seuil_abstention": SEUIL_ABSTENTION,
             "metriques": metriques}
