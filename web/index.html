@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Analyse de sentiment</title>
+    <style>
+      body { font: 1rem system-ui, sans-serif; max-width: 42rem; margin: 3rem auto; padding: 0 1rem; color: #172033; }
+      label { display: block; margin: 1rem 0 .35rem; font-weight: 650; }
+      input, textarea, button { box-sizing: border-box; width: 100%; padding: .7rem; font: inherit; }
+      textarea { min-height: 8rem; } button { margin-top: 1rem; cursor: pointer; }
+      #resultat { padding: 1rem; border-radius: .5rem; background: #f0f4f8; white-space: pre-wrap; }
+    </style>
+  </head>
+  <body>
+    <h1>Analyse de sentiment des avis</h1>
+    <p>Entrez l’adresse de l’API et une clé client. N’utilisez pas une clé administrateur dans le navigateur.</p>
+    <form id="formulaire">
+      <label for="api">Adresse de l’API</label>
+      <input id="api" type="url" value="http://127.0.0.1:8000" required>
+      <label for="cle">Clé client</label>
+      <input id="cle" type="password" autocomplete="off" required>
+      <label for="avis">Avis</label>
+      <textarea id="avis" maxlength="2000" required></textarea>
+      <button type="submit">Analyser</button>
+    </form>
+    <p id="resultat" role="status" aria-live="polite">Saisissez un avis pour commencer.</p>
+    <script type="module" src="client.js"></script>
+  </body>
+</html>
