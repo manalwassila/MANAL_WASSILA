@@ -19,7 +19,7 @@ REQUIRED_DIRS = ["data", "models", "app", "ui", "tests", "scripts", "docs/cadrag
 REQUIRED_FILES = ["README.md", "requirements.txt", ".gitignore"]
 CORE_PACKAGES = {"pandas": "pandas", "sklearn": "scikit-learn", "pytest": "pytest"}
 GITIGNORE_MUST_CONTAIN = [".venv/", "__pycache__/", ".env", "models/", "mlruns/"]
-MIN_AUTHORS = 2  # un binôme : deux auteurs de commits
+MIN_AUTHORS = 1  # projet individuel : Manal Wassila
 
 errors = 0
 warnings = 0
@@ -100,7 +100,7 @@ def check_git() -> None:
     if len(authors) >= MIN_AUTHORS:
         ok(f"{len(authors)} auteurs de commits : {', '.join(authors)}")
     elif authors:
-        warn(f"{len(authors)} auteur(s) seulement : les deux membres doivent pousser un commit")
+        warn(f"{len(authors)} auteur(s) de commit(s) : un auteur est attendu pour le projet individuel")
     else:
         warn("aucun commit encore")
     tracked = subprocess.run(["git", "ls-files"], cwd=ROOT, capture_output=True, text=True).stdout

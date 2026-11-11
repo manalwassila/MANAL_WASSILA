@@ -2,10 +2,10 @@ name: CI
 on: [push, pull_request]
 jobs:
   tp1:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
-        with: { fetch-depth: 0 }          # tout l'historique : git shortlog compte les deux auteurs
+        with: { fetch-depth: 0 }          # historique complet pour le contrôle des commits
       - uses: actions/setup-python@v6
         with: { python-version: "3.11" }
       - name: Environnement virtuel et dépendances
