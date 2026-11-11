@@ -40,11 +40,18 @@ def test_espaces_refuses(session):
     assert not r.ok and r.message == client.REFUS
 
 
-def test_modele_non_charge(session, monkeypatch):
+def test_modele_non_charge(session):
     from api.main import app
 
-    monkeypatch.setattr(app.state, "classifier", None)
-    assert client.predire(session, "Très bien").message == client.SANS_MODELE
+    modele = app.state.classifier
+    app.state.classifier = None
+    try:
+        assert client.predire(session, "Très bien").message == client.SANS_MODELE
+    finally:
+        # Cette session TestClient reste ouverte jusqu'à la fin du module.
+        # Restaurer explicitement l'état garantit que les tests de lot suivants
+        # repartent avec le classifier chargé au démarrage.
+        app.state.classifier = modele
 
 
 def test_api_injoignable():
